@@ -1,0 +1,10 @@
+﻿
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h2>Login</h2>
+
+@*If user is logged in/authorized, login, otherwise redirect to authorization*@
+
+@Html.ActionLink("Login with Twitch", "Authorize", "Authentication", null, new { @class="btn  btn-primary" })
