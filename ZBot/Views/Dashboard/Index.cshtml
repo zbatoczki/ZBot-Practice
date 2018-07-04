@@ -1,12 +1,13 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@model ZBotUser
+@section hello
+{
+    Hello, @Model.Username
 }
-
 
 <div class="row">
     <div class="col col-md-8">
+        <h2>Hi, @Model.Username!</h2>
+        <p>Your email is: @Model.Email</p>
         <h2>Settings</h2>
         <h2>Commands</h2>
         <h2>Filters</h2>
@@ -15,7 +16,7 @@
         <iframe frameborder="1"
                 scrolling="yes"
                 id="elekbatoczki"
-                src="http://www.twitch.tv/embed/ninja/chat"
+                src="http://www.twitch.tv/embed/@Model.Username/chat"
                 height="750"
                 width="100%"></iframe>
     </div>

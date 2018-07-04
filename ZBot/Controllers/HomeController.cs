@@ -29,6 +29,7 @@ namespace ZBot.Controllers
             return View();
         }
 
+        [Route("/login")]
         public IActionResult Login()
         {
             ViewData["Message"] = "Your login page.";

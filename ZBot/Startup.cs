@@ -6,16 +6,21 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.IO;
+using ZBot.Services;
 
 namespace ZBot
 {
     public class Startup
     {
-        public IConfiguration Configuration { get; }
+        public static IConfiguration Configuration { get; set; }
 
-        public Startup(IConfiguration _configuration)
+        public Startup()
         {
-            Configuration = _configuration;
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json");
+            Configuration = builder.Build();
         }
 
         
@@ -24,6 +29,8 @@ namespace ZBot
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddScoped<IWebRequest, WebRequest>();
+            services.AddScoped<ITwitchService, TwitchService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

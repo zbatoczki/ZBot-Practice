@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace ZBot.Services
 {
-    public static class WebRequest
+    public class WebRequest : IWebRequest
     {
-        private static readonly HttpClient client = new HttpClient();
+        private readonly HttpClient client = new HttpClient();
 
         /// <summary>
         /// Makes a GET or POST request with the provided URL
@@ -16,7 +16,7 @@ namespace ZBot.Services
         /// <param name="requestType">Type of request, such as "GET" or "POST".</param>
         /// <param name="url">The target URL.</param>
         /// <param name="parameters">Parameters for the request.</param>
-        public static string MakeRequest(string requestType, string url, Dictionary<string, string> parameters = null)
+        public string MakeRequest(string requestType, string url, Dictionary<string, string> parameters = null)
         {
             string response = "";
             if (requestType == "GET")

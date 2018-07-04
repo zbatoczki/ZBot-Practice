@@ -13,75 +13,47 @@ namespace ZBot.Controllers
 {
     public class AuthenticationController : Controller
     {
-        string twitchURL_GET = "https://id.twitch.tv/oauth2/authorize";
-        string twitchURL_POST = "https://id.twitch.tv/oauth2/token";
+
+        IWebRequest webRequest;
+        ITwitchService twitchService;
+
+        public AuthenticationController(IWebRequest webRequest, ITwitchService twitchService)
+        {
+            this.webRequest = webRequest;
+            this.twitchService = twitchService;
+        }
 
         [Route("/authentication/authorize")]
-        public ActionResult Authorize(string code, string scope)
+        public ActionResult Authorize()
         {           
-            if (code == null)
-            {
                 StringBuilder sb = new StringBuilder();
-                sb.Append(twitchURL_GET);
+                sb.Append(Startup.Configuration["twitchURL_GET"]);
                 sb.Append("?client_id=");
-                sb.Append("wwqvmentego4volic66z9kgiws0u42");
-                sb.Append("&redirect_uri=http://localhost:53628/authentication/confirm");
+                sb.Append(Startup.Configuration["appSettings:clientID"]);
+                sb.Append("&redirect_uri=");
+                sb.Append(Startup.Configuration["appRedirectURL"]);
                 sb.Append("&response_type=code");
                 sb.Append("&scope=user:read:email");
-                return new RedirectResult(sb.ToString());
-            }
-
-            //sb.Append(twitchURL_POST);
-            //sb.Append("?client_id=");
-            //sb.Append("wwqvmentego4volic66z9kgiws0u42");
-            //sb.Append("&client_secret=SECRET_HERE");
-            //sb.Append("&code=<authorization code received above>");
-            //sb.Append(code);
-            //sb.Append("&grant_type=authorization_code");            
-            //sb.Append("&redirect_uri=http://localhost:53628/authentication/confirm");
-
-            Dictionary<string, string> postParams = new Dictionary<string, string>();
-            postParams.Add("client_id", "wwqvmentego4volic66z9kgiws0u42");
-            postParams.Add("client_secret", "SECRET_HERE");
-            postParams.Add("code", code);
-            postParams.Add("grant_type", "authorization_code");
-            postParams.Add("redirect_uri", "http://localhost:53628/authentication/confirm");`
-
-            var response = WebRequest.MakeRequest("POST", twitchURL_POST, postParams);
-
-            return View("Dashboard/Index");
+                return new RedirectResult(sb.ToString());            
         }
 
-        [Route("/authentication/confirm")]
-        public ActionResult ConfirmAuth(string code, string scope)
-        {
-            PostResponse response = new PostResponse();
-            if(code != null)
-            {
-                var jsonResponse = GetOAuth(code);
-                response = JsonConvert.DeserializeObject<PostResponse>(jsonResponse);
+        //[Route("/authentication/confirm")]
+        //public IActionResult ConfirmAuth(string code, string scope)
+        //{
+        //    PostResponse response = new PostResponse();
+        //    if(code == null)
+        //    {
+        //        return BadRequest();
+        //    }
+        //    var jsonResponse = twitchService.GetOAuth(code);
+        //    response = JsonConvert.DeserializeObject<PostResponse>(jsonResponse);
 
-                TwitchAPI twitch = new TwitchAPI();
-                twitch.Settings.AccessToken = response.access_token;
-                twitch.Settings.ClientId = "wwqvmentego4volic66z9kgiws0u42";
+        //    ZBotUser newUser = twitchService.RegisterUser(response);
 
-                twitch.Users.helix.
-            }
-            
+        //    return RedirectToAction("Index", "Dashboard", newUser);
 
-            return View("/Views/Dashboard/Index.cshtml");
-        }
+        //    //return View("/Views/Dashboard/Index.cshtml", newUser);
+        //}
 
-        private string GetOAuth(string authCode)
-        {
-            Dictionary<string, string> postParams = new Dictionary<string, string>();
-            postParams.Add("client_id", "wwqvmentego4volic66z9kgiws0u42");
-            postParams.Add("client_secret", "SECRET_HERE");
-            postParams.Add("code", authCode);
-            postParams.Add("grant_type", "authorization_code");
-            postParams.Add("redirect_uri", "http://localhost:53628/authentication/confirm");
-
-            return WebRequest.MakeRequest("POST", twitchURL_POST, postParams);
-        }
     }
 }
