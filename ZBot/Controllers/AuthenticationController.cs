@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using TwitchLib.Api;
-using ZBot.Models;
 using ZBot.Services;
 
 namespace ZBot.Controllers
@@ -36,24 +29,5 @@ namespace ZBot.Controllers
                 sb.Append("&scope=user:read:email");
                 return new RedirectResult(sb.ToString());            
         }
-
-        //[Route("/authentication/confirm")]
-        //public IActionResult ConfirmAuth(string code, string scope)
-        //{
-        //    PostResponse response = new PostResponse();
-        //    if(code == null)
-        //    {
-        //        return BadRequest();
-        //    }
-        //    var jsonResponse = twitchService.GetOAuth(code);
-        //    response = JsonConvert.DeserializeObject<PostResponse>(jsonResponse);
-
-        //    ZBotUser newUser = twitchService.RegisterUser(response);
-
-        //    return RedirectToAction("Index", "Dashboard", newUser);
-
-        //    //return View("/Views/Dashboard/Index.cshtml", newUser);
-        //}
-
     }
 }

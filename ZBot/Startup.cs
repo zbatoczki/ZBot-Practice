@@ -8,6 +8,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.IO;
 using ZBot.Services;
+using ZBot.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace ZBot
 {
@@ -15,11 +17,15 @@ namespace ZBot
     {
         public static IConfiguration Configuration { get; set; }
 
-        public Startup()
+        public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json");
+                .AddJsonFile("appsettings.json", true);
+            if(env.IsDevelopment())
+            {
+                builder.AddUserSecrets<Startup>();
+            }
             Configuration = builder.Build();
         }
 
@@ -28,9 +34,13 @@ namespace ZBot
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var conn = Configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContext<UserDbContext>(options => options.UseSqlServer(conn));
+
             services.AddMvc();
             services.AddScoped<IWebRequest, WebRequest>();
             services.AddScoped<ITwitchService, TwitchService>();
+            services.AddScoped<IZBotService, ZBotService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

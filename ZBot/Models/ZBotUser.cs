@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ZBot.Models
 {
     public class ZBotUser
     {
+        [Required]
+        public string Id { get; set; } = "";
+
         [Required]
         [EmailAddress]
         public string Email { get; set; } = "name@email.com";
@@ -15,14 +14,11 @@ namespace ZBot.Models
         [Required]
         public string Username { get; set; } = "TWITCH_USER";
 
-        public ZBotUser(string email, string username)
+        public ZBotUser(string id, string email, string username)
         {
+            Id = id;
             Email = email;
             Username = username;
-        }
-
-        public ZBotUser()
-        {
         }
     }
 }
