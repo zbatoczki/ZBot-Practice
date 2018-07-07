@@ -23,7 +23,7 @@ namespace ZBot.Services
             {
                 Dictionary<string, string> postParams = new Dictionary<string, string>();
                 postParams.Add("client_id", Startup.Configuration["appSettings:clientID"]);
-                postParams.Add("client_secret", Startup.Configuration["appSettings:clientSecret"]);
+                postParams.Add("client_secret", Startup.Configuration["ClientSecret"]);
                 postParams.Add("code", authCode);
                 postParams.Add("grant_type", "authorization_code");
                 postParams.Add("redirect_uri", Startup.Configuration["appRedirectURL"]);
@@ -41,7 +41,7 @@ namespace ZBot.Services
 
             User[] user = api.Users.helix.GetUsersAsync().Result.Users;
 
-            return new ZBotUser(user[0].Id, user[0].Email, user[0].DisplayName);
+            return new ZBotUser(int.Parse(user[0].Id), user[0].Email, user[0].DisplayName, response.access_token, response.refresh_token);
         }
     }
 }

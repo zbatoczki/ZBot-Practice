@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ZBot.Entities;
 using ZBot.Models;
 
 namespace ZBot.Data
@@ -10,11 +11,11 @@ namespace ZBot.Data
     /// <summary>
     /// Context class to interact with the database
     /// </summary>
-    public class UserDbContext : DbContext
+    public class ZBotDbContext : DbContext
     {
-        DbSet<ZBotUser> users { get; set; }
-
-        public UserDbContext(DbContextOptions<UserDbContext> options) : base(options)
+        DbSet<User> Users { get; set; }
+        DbSet<Token> Tokens { get; set; }
+        public ZBotDbContext(DbContextOptions<ZBotDbContext> options) : base(options)
         {
 
         }
@@ -22,6 +23,8 @@ namespace ZBot.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            builder.Entity<Token>().HasKey(t => new { t.Id });
         }
     }
 }

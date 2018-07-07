@@ -16,11 +16,13 @@ namespace ZBot.Controllers
 
         IWebRequest webRequest;
         ITwitchService twitchService;
+        IZBotService zbotService;
 
-        public DashboardController(IWebRequest webRequest, ITwitchService twitchService)
+        public DashboardController(IWebRequest webRequest, ITwitchService twitchService, IZBotService zbotService)
         {
             this.webRequest = webRequest;
             this.twitchService = twitchService;
+            this.zbotService = zbotService;
         }
 
         public IActionResult Index(string code, string scope)
@@ -32,6 +34,8 @@ namespace ZBot.Controllers
             var jsonResponse = twitchService.GetOAuth(code);
 
             ZBotUser newUser = twitchService.RegisterUser(jsonResponse);
+
+            zbotService.AddUser(newUser);
 
             return View(newUser);
         }

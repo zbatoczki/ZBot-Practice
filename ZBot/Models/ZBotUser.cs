@@ -5,7 +5,8 @@ namespace ZBot.Models
     public class ZBotUser
     {
         [Required]
-        public string Id { get; set; } = "";
+        [Key]
+        public int UserId { get; set; }
 
         [Required]
         [EmailAddress]
@@ -14,11 +15,16 @@ namespace ZBot.Models
         [Required]
         public string Username { get; set; } = "TWITCH_USER";
 
-        public ZBotUser(string id, string email, string username)
+        public string OAuthToken { get; set; }
+        public string RefreshToken { get; set; }
+
+        public ZBotUser(int id, string email, string username, string oAuthToken, string refreshToken)
         {
-            Id = id;
+            UserId = id;
             Email = email;
             Username = username;
+            OAuthToken = oAuthToken;
+            RefreshToken = refreshToken;
         }
     }
 }

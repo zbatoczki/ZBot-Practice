@@ -10,6 +10,8 @@ using System.IO;
 using ZBot.Services;
 using ZBot.Data;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
+using ZBot.Entities;
 
 namespace ZBot
 {
@@ -35,12 +37,13 @@ namespace ZBot
         public void ConfigureServices(IServiceCollection services)
         {
             var conn = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<UserDbContext>(options => options.UseSqlServer(conn));
+            services.AddDbContext<ZBotDbContext>(options => options.UseSqlServer(conn));
 
             services.AddMvc();
             services.AddScoped<IWebRequest, WebRequest>();
             services.AddScoped<ITwitchService, TwitchService>();
             services.AddScoped<IZBotService, ZBotService>();
+            services.AddAutoMapper(x => x.AddProfile(new EntityMapper()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

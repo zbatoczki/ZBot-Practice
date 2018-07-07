@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ZBot.Entities;
 using ZBot.Models;
 
 namespace ZBot.Services
