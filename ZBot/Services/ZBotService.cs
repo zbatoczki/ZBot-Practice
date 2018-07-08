@@ -23,9 +23,12 @@ namespace ZBot.Services
         }
 
         public void AddUser(ZBotUser user)
-        {           
-            db.Add( mapper.Map<User>(user) );
-            db.Add( mapper.Map<Token>(user) );
+        {
+            User dbUser = mapper.Map<User>(user);
+            Token dbToken = mapper.Map<Token>(user); 
+
+            db.Add( dbUser );
+            db.Add( dbToken );
             db.SaveChanges();
         }
     }

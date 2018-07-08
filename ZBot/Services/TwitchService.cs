@@ -41,7 +41,7 @@ namespace ZBot.Services
 
             User[] user = api.Users.helix.GetUsersAsync().Result.Users;
 
-            return new ZBotUser(int.Parse(user[0].Id), user[0].Email, user[0].DisplayName, response.access_token, response.refresh_token);
+            return new ZBotUser(user[0].Id, user[0].Email, user[0].DisplayName, response.access_token, response.refresh_token);
         }
     }
 }

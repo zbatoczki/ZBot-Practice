@@ -11,8 +11,8 @@ using ZBot.Data;
 namespace ZBot.Migrations
 {
     [DbContext(typeof(ZBotDbContext))]
-    [Migration("20180707202212_Initial")]
-    partial class Initial
+    [Migration("20180708171814_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -26,26 +26,24 @@ namespace ZBot.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("OAuthToken");
+
+                    b.Property<string>("RefreshToken");
+
                     b.Property<string>("UserId");
-
-                    b.Property<int?>("UserId1");
-
-                    b.Property<string>("oAuthToken");
-
-                    b.Property<string>("refreshToken");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId1")
+                    b.HasIndex("UserId")
                         .IsUnique()
-                        .HasFilter("[UserId1] IS NOT NULL");
+                        .HasFilter("[UserId] IS NOT NULL");
 
                     b.ToTable("Tokens");
                 });
 
             modelBuilder.Entity("ZBot.Entities.User", b =>
                 {
-                    b.Property<int>("UserId")
+                    b.Property<string>("UserId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Email");
@@ -61,7 +59,7 @@ namespace ZBot.Migrations
                 {
                     b.HasOne("ZBot.Entities.User", "User")
                         .WithOne("Token")
-                        .HasForeignKey("ZBot.Entities.Token", "UserId1");
+                        .HasForeignKey("ZBot.Entities.Token", "UserId");
                 });
 #pragma warning restore 612, 618
         }

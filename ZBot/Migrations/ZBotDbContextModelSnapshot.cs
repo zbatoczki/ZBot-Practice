@@ -25,11 +25,11 @@ namespace ZBot.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("UserId");
+                    b.Property<string>("OAuthToken");
 
-                    b.Property<string>("oAuthToken");
+                    b.Property<string>("RefreshToken");
 
-                    b.Property<string>("refreshToken");
+                    b.Property<string>("UserId");
 
                     b.HasKey("Id");
 
@@ -42,7 +42,7 @@ namespace ZBot.Migrations
 
             modelBuilder.Entity("ZBot.Entities.User", b =>
                 {
-                    b.Property<int>("UserId")
+                    b.Property<string>("UserId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Email");

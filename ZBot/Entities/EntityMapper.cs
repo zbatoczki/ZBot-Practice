@@ -7,8 +7,10 @@ namespace ZBot.Entities
     {
         public EntityMapper()
         {
-            CreateMap<User, ZBotUser>();
-            CreateMap<Token, ZBotUser>();
+            CreateMap<ZBotUser, User>().ForMember(x => x.Token, opt => opt.Ignore());
+            CreateMap<ZBotUser, Token>()
+                .ForMember(x => x.Id, opt => opt.Ignore())
+                .ForMember(x => x.User, opt => opt.Ignore());
         }
     }
 }

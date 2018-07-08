@@ -5,8 +5,7 @@ namespace ZBot.Models
     public class ZBotUser
     {
         [Required]
-        [Key]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
 
         [Required]
         [EmailAddress]
@@ -18,7 +17,7 @@ namespace ZBot.Models
         public string OAuthToken { get; set; }
         public string RefreshToken { get; set; }
 
-        public ZBotUser(int id, string email, string username, string oAuthToken, string refreshToken)
+        public ZBotUser(string id, string email, string username, string oAuthToken, string refreshToken)
         {
             UserId = id;
             Email = email;
